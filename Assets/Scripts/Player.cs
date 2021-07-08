@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GridTile playerTile;
+
+    public void SetTile(GridTile tile)
     {
-        
+         playerTile = tile;
     }
 
-    // Update is called once per frame
-    void Update()
+    public GridTile GetTile()
     {
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-
-        }
+        return playerTile;
     }
 }
