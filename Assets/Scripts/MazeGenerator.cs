@@ -20,13 +20,10 @@ public class MazeGenerator {
         startingTile.SetWall(false);
 
         // Add the surrounding filled cells of the cell to the cell list.
-        GridTile[] startingNeighbors = GetNeighbors(grid, startingTile);
+        List<GridTile> startingNeighbors = grid.GetNeighbors(startingTile);
         foreach(GridTile neighbor in startingNeighbors)
         {
-            if(neighbor != null)
-            {
-                neighborPool.Add(neighbor);
-            }
+            neighborPool.Add(neighbor);
         }
 
         // While there are cells in the list:
@@ -45,10 +42,10 @@ public class MazeGenerator {
                 tile.SetWall(false);
 
                 // Add the neighboring filled cells to the list.
-                GridTile[] neighbors = GetNeighbors(grid, tile);
+                List<GridTile> neighbors = grid.GetNeighbors(tile);
                 foreach(GridTile neighbor in neighbors)
                 {
-                    if (neighbor != null && neighbor.IsWall())
+                    if (neighbor.IsWall())
                     {
                         neighborPool.Add(neighbor);
                     }
@@ -59,27 +56,15 @@ public class MazeGenerator {
         }
     }
 
-    private static GridTile[] GetNeighbors(GameGrid grid, GridTile tile)
-    {
-        GridTile[] neighbors = new GridTile[4];
-        int x = tile.GetX();
-        int y = tile.GetY();
-        neighbors[0] = grid.GetTile(x, y + 1);
-        neighbors[1] = grid.GetTile(x + 1, y);
-        neighbors[2] = grid.GetTile(x, y - 1);
-        neighbors[3] = grid.GetTile(x - 1, y);
-        return neighbors;
-    }
-
     private static int GetNumExploredNeighbors(GameGrid grid, GridTile tile, HashSet<GridTile> explored)
     {
         int centerX = tile.GetX();
         int centerY = tile.GetY();
 
         int numExploredNeighbors = 0;
-        GridTile[] neighbors = GetNeighbors(grid, tile);
+        List<GridTile> neighbors = grid.GetNeighbors(tile);
         foreach(GridTile neighbor in neighbors) {
-            if(neighbor != null && explored.Contains(neighbor))
+            if(explored.Contains(neighbor))
             {
                 ++numExploredNeighbors;
             }
