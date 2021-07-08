@@ -11,6 +11,7 @@ public class Game : MonoBehaviour
 
     private GameGrid grid;
 
+    // Converts a GridTile to its equivalent scene position.
     private Vector2 TileToScenePos(GridTile tile)
     {
         float posX = tile.GetX() - (width / 2) + 0.5f;
@@ -29,18 +30,11 @@ public class Game : MonoBehaviour
         MazeGenerator.GenerateMaze(grid);
         tilemapGenerator.CreateTilemapFromGrid(grid);
 
-        for(int x = 0; x < width; ++x)
-        {
-            for(int y = 0; y < height; ++y)
-            {
-                GridTile tile = grid.GetTile(x, y);
-                if(!tile.IsWall())
-                {
-                    SetPlayerPos(tile);
-                    return;
-                }
-            }
-        }
+        // Spawn the player at a random dead end
+        List<GridTile> deadEnds = grid.GetAllDeadEnds();
+        int index = Random.Range(0, deadEnds.Count);
+        GridTile startingPlayerTile = deadEnds[index];
+        SetPlayerPos(startingPlayerTile);
     }
 
     private void Update()
@@ -63,6 +57,7 @@ public class Game : MonoBehaviour
         }
     }
 
+    // Move the player by the given offset.
     private void MovePlayer(int xOffset, int yOffset)
     {
         GridTile currentTile = player.GetTile();
@@ -73,6 +68,7 @@ public class Game : MonoBehaviour
         SetPlayerPos(nextTile);
     }
 
+    // Sets the player position if the tile is valid, does nothing otherwise.
     private void SetPlayerPos(GridTile tile)
     {
         if(tile != null && !tile.IsWall())

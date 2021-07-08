@@ -31,6 +31,75 @@ public class GameGrid {
         }
     }
 
+    // Returns a list of all blank tiles.
+    public List<GridTile> GetAllBlankTiles()
+    {
+        List<GridTile> results = new List<GridTile>();
+        for(int x = 0; x < width; ++x)
+        {
+            for(int y = 0; y < height; ++y)
+            {
+                GridTile tile = GetTile(x, y);
+                if(!tile.IsWall())
+                {
+                    results.Add(tile);
+                }
+            }
+        }
+        return results;
+    }
+
+    // Returns a list of all blank tiles with 1 or less blank neighbors.
+    public List<GridTile> GetAllDeadEnds(List<GridTile> blankTiles = null)
+    {
+        if(blankTiles == null)
+        {
+            blankTiles = GetAllBlankTiles();
+        }
+
+        List<GridTile> deadEndTiles = new List<GridTile>();
+        foreach(GridTile blankTile in blankTiles)
+        {
+            if(GetNumBlankNeighbors(blankTile) <= 1)
+            {
+                deadEndTiles.Add(blankTile);
+            }
+        }
+        return deadEndTiles;
+    }
+
+    // Returns the number of blank neighbors of a tile.
+    public int GetNumBlankNeighbors(GridTile tile)
+    {
+        List<GridTile> neighbors = GetNeighbors(tile);
+        int numBlankNeighbors = 0;
+
+        foreach (GridTile neighbor in neighbors)
+        {
+            if (!neighbor.IsWall())
+            {
+                ++numBlankNeighbors;
+            }
+        }
+        return numBlankNeighbors;
+    }
+
+    // Returns a list of the blank neighbors of a tile.
+    public List<GridTile> GetBlankNeighbors(GridTile tile)
+    {
+        List<GridTile> neighbors = GetNeighbors(tile);
+        List<GridTile> blankNeighbors = new List<GridTile>();
+
+        foreach(GridTile neighbor in neighbors)
+        {
+            if(!neighbor.IsWall())
+            {
+                blankNeighbors.Add(neighbor);
+            }
+        }
+        return blankNeighbors;
+    }
+
     // Returns the valid neighbors of a tile. Only cardinal neighbors are considered.
     public List<GridTile> GetNeighbors(GridTile tile)
     {
@@ -46,6 +115,7 @@ public class GameGrid {
         return neighbors;
     }
 
+    // Returns the tile at the given point, or null if it is out of bounds.
     public GridTile GetTile(int x, int y)
     {
         if(x < 0 || x >= width || y < 0 || y >= height)
