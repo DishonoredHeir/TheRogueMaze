@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+    private const int playerTurn = 0;
+    private const int enemyTurn = 1;
+    private const int maxTurnIndex = enemyTurn;
+    
     public int width;
     public int height;
     public TilemapGenerator tilemapGenerator;
     public Player player;
-
+    public float delay = 0.5f;
+    
     private GameGrid grid;
+    private int currentTurn = playerTurn;
+    private bool hasMoved = false;
 
     // Converts a GridTile to its equivalent scene position.
     private Vector2 TileToScenePos(GridTile tile)
@@ -34,48 +41,90 @@ public class Game : MonoBehaviour
         List<GridTile> deadEnds = grid.GetAllDeadEnds();
         int index = Random.Range(0, deadEnds.Count);
         GridTile startingPlayerTile = deadEnds[index];
-        SetPlayerPos(startingPlayerTile);
+        SetPlayerPos(startingPlayerTile, true);
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.W))
+        if(hasMoved)
         {
-            MovePlayer(0, 1);
+            return;
         }
-        else if(Input.GetKeyDown(KeyCode.A))
+        if(currentTurn == playerTurn)
         {
-            MovePlayer(-1, 0);
+            HandlePlayerInput();
         }
-        else if(Input.GetKeyDown(KeyCode.S))
+        else if(currentTurn == enemyTurn)
         {
-            MovePlayer(0, -1);
-        }
-        else if(Input.GetKeyDown(KeyCode.D))
-        {
-            MovePlayer(1, 0);
+            ScheduleNextTurn();
         }
     }
 
+    private void HandlePlayerInput()
+    {
+        bool moved = false;
+         if(Input.GetKeyDown(KeyCode.W))
+        {
+            moved = MovePlayer(0, 1);
+        }
+        else if(Input.GetKeyDown(KeyCode.A))
+        {
+            moved = MovePlayer(-1, 0);
+        }
+        else if(Input.GetKeyDown(KeyCode.S))
+        {
+            moved = MovePlayer(0, -1);
+        }
+        else if(Input.GetKeyDown(KeyCode.D))
+        {
+            moved = MovePlayer(1, 0);
+        }
+        if(moved)
+        {
+            ScheduleNextTurn();
+        }
+    }
+
+    private void ScheduleNextTurn()
+    {   
+        if(!hasMoved)
+        {
+            hasMoved = true;
+            Invoke("NextTurn", delay);
+        }
+    }
+
+    private void NextTurn()
+    {
+        currentTurn = (currentTurn+1)%maxTurnIndex;
+        hasMoved = false;
+    }
+
     // Move the player by the given offset.
-    private void MovePlayer(int xOffset, int yOffset)
+    private bool MovePlayer(int xOffset, int yOffset)
     {
         GridTile currentTile = player.GetTile();
         GridTile nextTile = grid.GetTile(
             currentTile.GetX() + xOffset,
             currentTile.GetY() + yOffset
         );
-        SetPlayerPos(nextTile);
+        return SetPlayerPos(nextTile, false);
     }
 
     // Sets the player position if the tile is valid, does nothing otherwise.
-    private void SetPlayerPos(GridTile tile)
+    private bool SetPlayerPos(GridTile tile, bool instant)
     {
         if(tile != null && !tile.IsWall())
         {
             player.SetTile(tile);
             Vector2 playerPos = TileToScenePos(tile);
-            player.transform.position = playerPos;
+            if(instant)
+            {
+                player.transform.position = playerPos;
+            }
+            player.SetTargetPos(playerPos);
+            return true;
         }
+        return false;
     }
 }
