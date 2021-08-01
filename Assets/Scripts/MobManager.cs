@@ -32,6 +32,6 @@ public class MobManager : MonoBehaviour
     {
         GameObject MobObj = Instantiate(prefab);
         Mob mob = MobObj.GetComponent<Mob>();
-        mob.SetMobPos(Location, true, game);
+        mob.SetPos(Location, true, game);
     }
 }

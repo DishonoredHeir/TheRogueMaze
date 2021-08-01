@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f770d726b7fc58c4aab94505a8bac708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  smoothTime: 0.1
+  movingSpeed: 5
+  movingSmoothTime: 0.1
 --- !u!1 &89810328
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,6 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 247601427}
   - component: {fileID: 247601426}
+  - component: {fileID: 247601428}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -312,6 +313,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &247601428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247601425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342f00601b0835d4da9f0adaefcfe374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slimePrefab: {fileID: 3278771384045989603, guid: e4b7aeb2767d01246a4b23449f3638f0, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

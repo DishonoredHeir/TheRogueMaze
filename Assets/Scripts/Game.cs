@@ -45,7 +45,7 @@ public class Game : MonoBehaviour
         List<GridTile> deadEnds = grid.GetAllDeadEnds();
         int index = Random.Range(0, deadEnds.Count);
         GridTile startingPlayerTile = deadEnds[index];
-        player.SetPlayerPos(startingPlayerTile, true, this);
+        player.SetPos(startingPlayerTile, true, this);
         mobManager.SpawnMobs(deadEnds);
     }
 
