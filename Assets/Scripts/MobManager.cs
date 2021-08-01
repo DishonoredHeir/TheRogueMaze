@@ -21,10 +21,9 @@ public class MobManager : MonoBehaviour
 
     }
 
-    public void SpawnMobs(List<GridTile> SpawnPositions)
+    public void SpawnMobs(SpawnPointGenerator spawnPointGenerator)
     {
-        int index = Random.Range(0, SpawnPositions.Count);
-        GridTile startingMobTile = SpawnPositions[index];
+        GridTile startingMobTile = spawnPointGenerator.GenerateSpawnPoint();
         Spawn(slimePrefab, startingMobTile);
     }
 

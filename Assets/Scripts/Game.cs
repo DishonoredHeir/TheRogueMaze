@@ -42,11 +42,9 @@ public class Game : MonoBehaviour
         mobManager = GetComponent<MobManager>();
 
         // Spawn the player at a random dead end
-        List<GridTile> deadEnds = grid.GetAllDeadEnds();
-        int index = Random.Range(0, deadEnds.Count);
-        GridTile startingPlayerTile = deadEnds[index];
-        player.SetPos(startingPlayerTile, true, this);
-        mobManager.SpawnMobs(deadEnds);
+        SpawnPointGenerator spawnPointGenerator = new SpawnPointGenerator(grid.GetAllDeadEnds());
+        player.SetPos(spawnPointGenerator.GenerateSpawnPoint(), true, this);
+        mobManager.SpawnMobs(spawnPointGenerator);
     }
 
     private void Update()
