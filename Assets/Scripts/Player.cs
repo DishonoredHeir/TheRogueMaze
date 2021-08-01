@@ -12,19 +12,19 @@ public class Player : MovingEntity
     public void HandlePlayerInput(Game game)
     {
         bool moved = false;
-         if(Input.GetKeyDown(KeyCode.W))
+         if(Input.GetKey(KeyCode.W))
         {
             moved = MoveByOffset(0, 1, game);
         }
-        else if(Input.GetKeyDown(KeyCode.A))
+        else if(Input.GetKey(KeyCode.A))
         {
             moved = MoveByOffset(-1, 0, game);
         }
-        else if(Input.GetKeyDown(KeyCode.S))
+        else if(Input.GetKey(KeyCode.S))
         {
             moved = MoveByOffset(0, -1, game);
         }
-        else if(Input.GetKeyDown(KeyCode.D))
+        else if(Input.GetKey(KeyCode.D))
         {
             moved = MoveByOffset(1, 0, game);
         }
