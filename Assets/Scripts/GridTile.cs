@@ -7,6 +7,7 @@ public class GridTile {
     private bool isWall = true;
     private int x;
     private int y;
+    private List<Mob> Mobs = new List<Mob>();
 
     public GridTile(int x, int y)
     {
@@ -17,6 +18,19 @@ public class GridTile {
     public void SetWall(bool flag)
     {
         isWall = flag;
+    }
+
+    public void AddMob(Mob mob)
+    {
+        Mobs.Add(mob);
+    }
+
+    public void RemoveMob(Mob mob)
+    {
+        if(!Mobs.Remove(mob))
+        {
+            Debug.Log("mob was not deleted successfully");
+        }
     }
 
     public bool IsWall()
