@@ -20,7 +20,6 @@ public class Game : MonoBehaviour
     private bool hasMoved = false;
     private MobManager mobManager;
 
-
     // Converts a GridTile to its equivalent scene position.
     public Vector2 TileToScenePos(GridTile tile)
     {
@@ -83,5 +82,4 @@ public class Game : MonoBehaviour
     {
         return grid;
     }
-    
 }
