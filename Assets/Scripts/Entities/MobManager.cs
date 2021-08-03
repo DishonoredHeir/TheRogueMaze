@@ -23,14 +23,40 @@ public class MobManager : MonoBehaviour
 
     public void SpawnMobs(SpawnPointGenerator spawnPointGenerator)
     {
-        GridTile startingMobTile = spawnPointGenerator.GenerateSpawnPoint();
-        Spawn(slimePrefab, startingMobTile);
+        for(int i = 0; i < 10; i++)
+        {
+            GridTile startingMobTile = spawnPointGenerator.GenerateSpawnPoint();
+            Spawn(slimePrefab, startingMobTile);
+        }
+        
     }
 
     private void Spawn(GameObject prefab, GridTile Location)
     {
         GameObject MobObj = Instantiate(prefab);
         Mob mob = MobObj.GetComponent<Mob>();
+        AllMobs.Add(mob);
         mob.SetPos(Location, true, game);
+    }
+
+    public bool UpdateMobs()
+    {
+        bool allExhausted = true;
+        foreach(Mob mob in AllMobs)
+        {
+            if(!mob.DoUpdate(game))
+            {
+                allExhausted = false;
+            }
+        }
+        return allExhausted;
+    }
+
+    public void OnTurnStart()
+    {
+        foreach(Mob mob in AllMobs)
+        {
+            mob.OnTurnStart();
+        }
     }
 }

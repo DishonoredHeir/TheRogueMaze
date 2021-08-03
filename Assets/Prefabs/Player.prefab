@@ -97,3 +97,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingSpeed: 5
   movingSmoothTime: 0.1
+  movesPerTurn: 10
+  moveTime: 0.5

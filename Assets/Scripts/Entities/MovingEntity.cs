@@ -13,8 +13,8 @@ public abstract class MovingEntity : MonoBehaviour
 
     private Vector2 TargetPos;
     private Vector2 currentVelocity;
-    private int movesRemaining;
-    private bool isMoving;
+    private int movesRemaining = 0;
+    private bool isMoving = false;
 
     private void Update()
     {

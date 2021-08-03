@@ -12,7 +12,17 @@ public class Mob : MovingEntity
 
     protected override void DoMovement(Game game)
     {
-
+        Debug.Log("Mobs moved and or got tired.");
+        List<GridTile> neighbors = game.GetGrid().GetBlankNeighbors(currentTile);
+        if(neighbors.Count < 1)
+        {
+            Debug.Log("IM TRAPPED SAVE ME OMG IM DYING!!!");
+            SetExhausted();
+            return;
+        }
+        int index = Random.Range(0, neighbors.Count);
+        GridTile tile = neighbors[index];
+        SetPos(tile, false, game);
     }
 
     public override void SetTile(GridTile tile)

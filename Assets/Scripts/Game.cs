@@ -62,7 +62,10 @@ public class Game : MonoBehaviour
         }
         else if(currentTurn == enemyTurn)
         {
-            ScheduleNextTurn();
+            if(mobManager.UpdateMobs())
+            {
+                ScheduleNextTurn();
+            }
         }
     }
 
@@ -78,11 +81,15 @@ public class Game : MonoBehaviour
 
     private void NextTurn()
     {
-        currentTurn = (currentTurn + 1) % maxTurnIndex;
+        currentTurn = (currentTurn + 1) % (maxTurnIndex + 1);
         hasMoved = false;
         if(currentTurn == playerTurn)
         {
             player.OnTurnStart();
+        }
+        else if(currentTurn == enemyTurn)
+        {
+            mobManager.OnTurnStart();
         }
     }
 
