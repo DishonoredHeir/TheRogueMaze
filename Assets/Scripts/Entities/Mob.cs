@@ -29,10 +29,11 @@ public class Mob : MovingEntity
         Point currentPoint = GridTile.GridTileToPoint(currentTile);
         Point PlayerPoint = GridTile.GridTileToPoint(game.GetPlayer().GetTile());
 
-        if(currentPoint == PlayerPoint)
+        if(currentPoint.Equals(PlayerPoint))
         {
             // Done
             SetExhausted();
+            return;
         }
 
         List<Point> list = game.GetGrid().GetPathFinder().FindPath(currentPoint, PlayerPoint);

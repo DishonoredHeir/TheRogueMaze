@@ -78,6 +78,7 @@ public class AStar
         return RetracePath(startNode, endNode);
     }
 
+    // Returns null or a path from start to end, excluding end
     private List<Point> RetracePath(AStarNode startNode, AStarNode endNode)
     {
         List<Point> path = new List<Point>();

@@ -25,10 +25,13 @@ public class MobManager : MonoBehaviour
     {
         for(int i = 0; i < 10; i++)
         {
+            if(spawnPointGenerator.GetNumRemaining() <= 0)
+            {
+                break;
+            }
             GridTile startingMobTile = spawnPointGenerator.GenerateSpawnPoint();
             Spawn(slimePrefab, startingMobTile);
         }
-        
     }
 
     private void Spawn(GameObject prefab, GridTile Location)

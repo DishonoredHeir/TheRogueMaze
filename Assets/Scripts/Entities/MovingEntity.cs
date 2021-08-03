@@ -52,6 +52,12 @@ public abstract class MovingEntity : MonoBehaviour
     // Sets the entity position if the tile is valid, does nothing otherwise.
     public virtual bool SetPos(GridTile tile, bool instant, Game game)
     {
+        /*
+        if(currentTile != null && GridTile.GetManhattanDistance(currentTile, tile) > 1 && !instant)
+        {
+            Debug.Log("Warning: Moving more than one tile in a single move!");
+        }*/
+
         // Tile is valid
         if (tile != null && !tile.IsWall())
         {
@@ -69,9 +75,7 @@ public abstract class MovingEntity : MonoBehaviour
                 {
                     return false;
                 }
-                isMoving = true;
-                movesRemaining--;
-                Invoke("FinishMoving", moveTime);
+                StartMoving();
             }
             return true;
         }
@@ -79,18 +83,22 @@ public abstract class MovingEntity : MonoBehaviour
     }
 
     // Move the entity by the given offset.
-    protected virtual bool MoveByOffset(int xOffset, int yOffset, Game game)
+    protected virtual bool MoveInDirection(Direction direction, Game game)
     {
-        GridTile nextTile = game.GetGrid().GetTile(
-            currentTile.GetX() + xOffset,
-            currentTile.GetY() + yOffset
-        );
+        GridTile nextTile = game.GetGrid().GetTileInDirection(currentTile, direction);
         return SetPos(nextTile, false, game);
     }
 
     protected void SetTargetPos(Vector2 vector)
     {
         TargetPos = vector;
+    }
+
+    private void StartMoving()
+    {
+        isMoving = true;
+        movesRemaining--;
+        Invoke("FinishMoving", moveTime);
     }
 
     private void FinishMoving()

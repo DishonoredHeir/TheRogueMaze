@@ -14,19 +14,19 @@ public class Player : MovingEntity
         bool moved = false;
          if(Input.GetKey(KeyCode.W))
         {
-            moved = MoveByOffset(0, 1, game);
+            moved = MoveInDirection(Direction.Up, game);
         }
         else if(Input.GetKey(KeyCode.A))
         {
-            moved = MoveByOffset(-1, 0, game);
+            moved = MoveInDirection(Direction.Left, game);
         }
         else if(Input.GetKey(KeyCode.S))
         {
-            moved = MoveByOffset(0, -1, game);
+            moved = MoveInDirection(Direction.Down, game);
         }
         else if(Input.GetKey(KeyCode.D))
         {
-            moved = MoveByOffset(1, 0, game);
+            moved = MoveInDirection(Direction.Right, game);
         }
     }
 }

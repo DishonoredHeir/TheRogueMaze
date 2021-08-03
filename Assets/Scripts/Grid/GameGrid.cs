@@ -3,6 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameGrid {
+    private static Point Up = new Point(0, 1);
+    private static Point Down = new Point(0, -1);
+    private static Point Left = new Point(-1, 0);
+    private static Point Right = new Point(1, 0);
+
+    public static Point GetOffsetFromDirection(Direction direction)
+    {
+        if (direction == Direction.Up)
+        {
+            return Up;
+        }
+        else if (direction == Direction.Down)
+        {
+            return Down;
+        }
+        else if (direction == Direction.Left)
+        {
+            return Left;
+        }
+        else if (direction == Direction.Right)
+        {
+            return Right;
+        }
+        return null;
+    }
+
     // Adds an object to a list if it is not null.
     private static void AddIfNotNull<T>(List<T> list, T obj)
     {
@@ -119,6 +145,18 @@ public class GameGrid {
         AddIfNotNull(neighbors, GetTile(x - 1, y));
 
         return neighbors;
+    }
+
+    public GridTile GetTileInDirection(GridTile tile, Direction direction)
+    {
+        Point offset = GetOffsetFromDirection(direction);
+        return GetTile(tile.GetX() + offset.GetX(), tile.GetY() + offset.GetY());
+    }
+
+    public bool IsTileInDirectionBlank(GridTile tile, Direction direction)
+    {
+        GridTile neighbor = GetTileInDirection(tile, direction);
+        return neighbor != null && !neighbor.IsWall();
     }
 
     // Returns the tile at the given point, or null if it is out of bounds.

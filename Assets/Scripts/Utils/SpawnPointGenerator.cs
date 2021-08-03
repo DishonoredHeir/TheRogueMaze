@@ -23,4 +23,9 @@ public class SpawnPointGenerator
         availableSpawnPoints.RemoveAt(index);
         return tile;
     }
+
+    public int GetNumRemaining()
+    {
+        return availableSpawnPoints.Count;
+    }
 }

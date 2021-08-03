@@ -14,6 +14,13 @@ public class GridTile {
         return grid.GetTile(point.GetX(), point.GetY());
     }
 
+    public static int GetManhattanDistance(GridTile a, GridTile b)
+    {
+        int deltaX = Mathf.Abs(a.GetX() - b.GetX());
+        int deltaY = Mathf.Abs(a.GetY() - b.GetY());
+        return deltaX + deltaY;
+    }
+
     private bool isWall = true;
     private int x;
     private int y;
