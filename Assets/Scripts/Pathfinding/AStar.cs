@@ -11,7 +11,7 @@ public class AStar
     {
         sizeX = grid.GetWidth();
         sizeY = grid.GetHeight();
-        nodeMap = new AStarNode[sizeY, sizeX];
+        nodeMap = new AStarNode[sizeX, sizeY];
 
         CreateNodeMap(grid);
     }
@@ -23,7 +23,7 @@ public class AStar
             for (int j = 0; j < sizeY; ++j)
             {
                 GridTile tile = grid.GetTile(i, j);
-                nodeMap[j, i] = new AStarNode(new Point(tile.GetX(), tile.GetY()), !tile.IsWall());
+                nodeMap[i, j] = new AStarNode(new Point(tile.GetX(), tile.GetY()), !tile.IsWall());
             }
         }
     }
@@ -31,8 +31,8 @@ public class AStar
     // Returns a list of points for the shortest path between start and end
     public List<Point> FindPath(Point start, Point end)
     {
-        AStarNode startNode = nodeMap[start.GetY(), start.GetX()];
-        AStarNode endNode = nodeMap[end.GetY(), end.GetX()];
+        AStarNode startNode = nodeMap[start.GetX(), start.GetY()];
+        AStarNode endNode = nodeMap[end.GetX(), end.GetY()];
 
         MinHeap<AStarNode> openSet = new MinHeap<AStarNode>(sizeX * sizeY);
         HashSet<AStarNode> closedSet = new HashSet<AStarNode>();
@@ -49,7 +49,7 @@ public class AStar
 
             if(currentNode == endNode)
             {
-                return RetracePath(startNode, endNode);
+                break;
             }
 
             List<AStarNode> neighbors = GetNeighbors(currentNode);
@@ -75,7 +75,7 @@ public class AStar
             }
         }
 
-        return null;
+        return RetracePath(startNode, endNode);
     }
 
     private List<Point> RetracePath(AStarNode startNode, AStarNode endNode)
@@ -85,6 +85,11 @@ public class AStar
 
         while(currentNode != startNode)
         {
+            if(currentNode == null)
+            {
+                return null;
+            }
+
             path.Add(currentNode.GetPos());
             currentNode = currentNode.Parent;
         }
@@ -110,7 +115,7 @@ public class AStar
 
             if(IsValid(checkX, checkY))
             {
-                AStarNode neighbor = nodeMap[checkY, checkX];
+                AStarNode neighbor = nodeMap[checkX, checkY];
                 neighbors.Add(neighbor);
             }
         }

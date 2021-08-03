@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class GridTile {
 
+    public static Point GridTileToPoint(GridTile tile)
+    {
+        return new Point(tile.x, tile.y);
+    }
+
+    public static GridTile PointToGridTile(Point point, GameGrid grid)
+    {
+        return grid.GetTile(point.GetX(), point.GetY());
+    }
+
     private bool isWall = true;
     private int x;
     private int y;

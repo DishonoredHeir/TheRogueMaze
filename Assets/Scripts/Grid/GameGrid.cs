@@ -15,6 +15,7 @@ public class GameGrid {
     private GridTile[,] grid;
     private int width;
     private int height;
+    private AStar pathFinder;
 
     public GameGrid(int width, int height)
     {
@@ -29,6 +30,11 @@ public class GameGrid {
                 this.grid[x, y] = new GridTile(x, y);
             }
         }
+    }
+
+    public void RefreshPathFinder()
+    {
+        this.pathFinder = new AStar(this);
     }
 
     // Returns a list of all blank tiles.
@@ -133,5 +139,10 @@ public class GameGrid {
     public int GetHeight()
     {
         return height;
+    }
+
+    public AStar GetPathFinder()
+    {
+        return pathFinder;
     }
 }

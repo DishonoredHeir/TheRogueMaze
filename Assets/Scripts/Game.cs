@@ -38,6 +38,7 @@ public class Game : MonoBehaviour
     {
         MazeGenerator.GenerateMaze(grid);
         tilemapGenerator.CreateTilemapFromGrid(grid);
+        grid.RefreshPathFinder();
         mobManager = GetComponent<MobManager>();
 
         // Spawn the player at a random dead end
@@ -96,5 +97,10 @@ public class Game : MonoBehaviour
     public GameGrid GetGrid()
     {
         return grid;
+    }
+
+    public Player GetPlayer()
+    {
+        return player;
     }
 }

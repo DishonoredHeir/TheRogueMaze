@@ -12,6 +12,7 @@ public class Mob : MovingEntity
 
     protected override void DoMovement(Game game)
     {
+        /*
         Debug.Log("Mobs moved and or got tired.");
         List<GridTile> neighbors = game.GetGrid().GetBlankNeighbors(currentTile);
         if(neighbors.Count < 1)
@@ -23,6 +24,32 @@ public class Mob : MovingEntity
         int index = Random.Range(0, neighbors.Count);
         GridTile tile = neighbors[index];
         SetPos(tile, false, game);
+        //*/
+
+        Point currentPoint = GridTile.GridTileToPoint(currentTile);
+        Point PlayerPoint = GridTile.GridTileToPoint(game.GetPlayer().GetTile());
+
+        if(currentPoint == PlayerPoint)
+        {
+            // Done
+            SetExhausted();
+        }
+
+        List<Point> list = game.GetGrid().GetPathFinder().FindPath(currentPoint, PlayerPoint);
+        if (list == null || list.Count <= 0)
+        {
+            Debug.Log("the world has collapsed. no one will survive. everything is null and void.");
+            SetExhausted();
+            return;
+        }
+        Point nextPoint = list[0];
+
+        GridTile NextTile = GridTile.PointToGridTile(nextPoint, game.GetGrid());
+        if (NextTile.IsWall())
+        {
+            Debug.Log("OMG IT HAPPENED AGAIN I SMACKED MY FACE INTO A WALL AND IT HURT!!!");
+        }
+        SetPos(NextTile, false, game);
     }
 
     public override void SetTile(GridTile tile)
