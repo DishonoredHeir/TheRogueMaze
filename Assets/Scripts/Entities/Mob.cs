@@ -10,9 +10,9 @@ public class Mob : MovingEntity
         
     }
 
-    protected override void Update()
+    protected override void DoMovement(Game game)
     {
-        base.Update();
+
     }
 
     public override void SetTile(GridTile tile)

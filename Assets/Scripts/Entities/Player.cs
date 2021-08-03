@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Player : MovingEntity
 {
-    protected override void Update()
+    protected override void DoMovement(Game game)
     {
-        base.Update();
+        HandlePlayerInput(game);
     }
 
     public void HandlePlayerInput(Game game)
@@ -27,10 +27,6 @@ public class Player : MovingEntity
         else if(Input.GetKey(KeyCode.D))
         {
             moved = MoveByOffset(1, 0, game);
-        }
-        if(moved)
-        {
-            game.ScheduleNextTurn();
         }
     }
 }

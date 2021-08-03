@@ -217,7 +217,7 @@ MonoBehaviour:
   height: 30
   tilemapGenerator: {fileID: 1951215666}
   player: {fileID: 49475792}
-  delay: 0.5
+  turnChangeDelay: 0.1
 --- !u!4 &247601427
 Transform:
   m_ObjectHideFlags: 0
@@ -563,6 +563,10 @@ PrefabInstance:
     - target: {fileID: 1772628542545950190, guid: f546552bb21d6164bba21cbee37223f5, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1772628542545950195, guid: f546552bb21d6164bba21cbee37223f5, type: 3}
+      propertyPath: movesPerTurn
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f546552bb21d6164bba21cbee37223f5, type: 3}

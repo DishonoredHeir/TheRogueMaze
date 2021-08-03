@@ -11,7 +11,7 @@ public class MobManager : MonoBehaviour
     private Game game;
     
 
-    private void Start()
+    private void Awake()
     {
         game = GetComponent<Game>();
     }

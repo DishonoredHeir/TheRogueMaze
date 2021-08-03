@@ -13,7 +13,7 @@ public class Game : MonoBehaviour
     public int height;
     public TilemapGenerator tilemapGenerator;
     public Player player;
-    public float delay = 0.5f;
+    public float turnChangeDelay = 0.5f;
     
     private GameGrid grid;
     private int currentTurn = playerTurn;
@@ -54,7 +54,11 @@ public class Game : MonoBehaviour
         }
         if(currentTurn == playerTurn)
         {
-            player.HandlePlayerInput(this);
+            bool isPlayerExhausted = player.DoUpdate(this);
+            if(isPlayerExhausted)
+            {
+                ScheduleNextTurn();
+            }
         }
         else if(currentTurn == enemyTurn)
         {
@@ -68,14 +72,18 @@ public class Game : MonoBehaviour
         if(!hasMoved)
         {
             hasMoved = true;
-            Invoke("NextTurn", delay);
+            Invoke("NextTurn", turnChangeDelay);
         }
     }
 
     private void NextTurn()
     {
-        currentTurn = (currentTurn+1)%maxTurnIndex;
+        currentTurn = (currentTurn + 1) % maxTurnIndex;
         hasMoved = false;
+        if(currentTurn == playerTurn)
+        {
+            player.OnTurnStart();
+        }
     }
 
     public GameGrid GetGrid()
