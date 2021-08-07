@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mob : MovingEntity
+public abstract class Mob : MovingEntity
 {
+    public float backtrackChance = .2f;
+    public int sightDistance = 3;
+    private GridTile previousTile = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -12,20 +16,49 @@ public class Mob : MovingEntity
 
     protected override void DoMovement(Game game)
     {
-        /*
-        Debug.Log("Mobs moved and or got tired.");
+        GridTile NextTile = DoBehaviour(game);
+        if(NextTile != null)
+        {
+            previousTile = currentTile;
+            SetPos(NextTile, false, game);
+        }
+
+    }
+
+    protected virtual GridTile DoBehaviour(Game game)
+    {
+        if(CanSeePlayer(game))
+        {
+            return DoChase(game);
+        }
+        
+        return DoWander(game);
+        
+    }
+
+    protected GridTile DoWander(Game game)
+    {
         List<GridTile> neighbors = game.GetGrid().GetBlankNeighbors(currentTile);
         if(neighbors.Count < 1)
         {
             Debug.Log("IM TRAPPED SAVE ME OMG IM DYING!!!");
             SetExhausted();
-            return;
+            return null;
+        }
+        if(previousTile != null && neighbors.Count > 1)
+        {
+            if(Random.value > backtrackChance)
+            {
+                neighbors.Remove(previousTile);
+            }
         }
         int index = Random.Range(0, neighbors.Count);
         GridTile tile = neighbors[index];
-        SetPos(tile, false, game);
-        //*/
+        return tile;
+    }
 
+    protected GridTile DoChase(Game game)
+    {
         Point currentPoint = GridTile.GridTileToPoint(currentTile);
         Point PlayerPoint = GridTile.GridTileToPoint(game.GetPlayer().GetTile());
 
@@ -33,7 +66,7 @@ public class Mob : MovingEntity
         {
             // Done
             SetExhausted();
-            return;
+            return null;
         }
 
         List<Point> list = game.GetGrid().GetPathFinder().FindPath(currentPoint, PlayerPoint);
@@ -41,7 +74,7 @@ public class Mob : MovingEntity
         {
             Debug.Log("the world has collapsed. no one will survive. everything is null and void.");
             SetExhausted();
-            return;
+            return null;
         }
         Point nextPoint = list[0];
 
@@ -50,7 +83,12 @@ public class Mob : MovingEntity
         {
             Debug.Log("OMG IT HAPPENED AGAIN I SMACKED MY FACE INTO A WALL AND IT HURT!!!");
         }
-        SetPos(NextTile, false, game);
+        return NextTile;
+    }
+
+    protected bool CanSeePlayer(Game game)
+    {
+        return GridTile.GetManhattanDistance(game.GetPlayer().GetTile(), currentTile) <= sightDistance;
     }
 
     public override void SetTile(GridTile tile)

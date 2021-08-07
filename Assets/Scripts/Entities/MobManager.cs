@@ -6,6 +6,7 @@ using UnityEngine;
 public class MobManager : MonoBehaviour
 {
     public GameObject slimePrefab;
+    public GameObject GlobPrefab;
 
     private List<Mob> AllMobs = new List<Mob>();
     private Game game;
@@ -31,6 +32,15 @@ public class MobManager : MonoBehaviour
             }
             GridTile startingMobTile = spawnPointGenerator.GenerateSpawnPoint();
             Spawn(slimePrefab, startingMobTile);
+        }
+        for(int i = 0; i < 10; i++)
+        {
+            if(spawnPointGenerator.GetNumRemaining() <= 0)
+            {
+                break;
+            }
+            GridTile startingMobTile = spawnPointGenerator.GenerateSpawnPoint();
+            Spawn(GlobPrefab, startingMobTile);
         }
     }
 

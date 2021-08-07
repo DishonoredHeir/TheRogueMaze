@@ -28,5 +28,9 @@ public class Player : MovingEntity
         {
             moved = MoveInDirection(Direction.Right, game);
         }
+        else if(Input.GetKey(KeyCode.Space))
+        {
+            SetExhausted();
+        }
     }
 }

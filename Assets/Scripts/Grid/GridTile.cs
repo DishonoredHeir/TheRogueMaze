@@ -64,4 +64,9 @@ public class GridTile {
     {
         return y;
     }
+
+    public override string ToString()
+    {
+        return "(" + x + ", " + y + ")";
+    }
 }

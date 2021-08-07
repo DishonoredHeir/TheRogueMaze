@@ -44,6 +44,7 @@ public class Game : MonoBehaviour
         // Spawn the player at a random dead end
         SpawnPointGenerator spawnPointGenerator = new SpawnPointGenerator(grid.GetAllDeadEnds());
         player.SetPos(spawnPointGenerator.GenerateSpawnPoint(), true, this);
+        player.OnTurnStart();
         mobManager.SpawnMobs(spawnPointGenerator);
     }
 
