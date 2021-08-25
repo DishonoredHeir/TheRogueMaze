@@ -49,7 +49,7 @@ public class MobManager : MonoBehaviour
         GameObject MobObj = Instantiate(prefab);
         Mob mob = MobObj.GetComponent<Mob>();
         AllMobs.Add(mob);
-        mob.SetPos(Location, true, game);
+        mob.SetPos(Location, true);
     }
 
     public bool UpdateMobs()
@@ -57,7 +57,7 @@ public class MobManager : MonoBehaviour
         bool allExhausted = true;
         foreach(Mob mob in AllMobs)
         {
-            if(!mob.DoUpdate(game))
+            if(!mob.DoUpdate())
             {
                 allExhausted = false;
             }

@@ -43,7 +43,7 @@ public class Game : MonoBehaviour
 
         // Spawn the player at a random dead end
         SpawnPointGenerator spawnPointGenerator = new SpawnPointGenerator(grid.GetAllDeadEnds());
-        player.SetPos(spawnPointGenerator.GenerateSpawnPoint(), true, this);
+        player.SetPos(spawnPointGenerator.GenerateSpawnPoint(), true);
         player.OnTurnStart();
         mobManager.SpawnMobs(spawnPointGenerator);
     }
@@ -56,7 +56,7 @@ public class Game : MonoBehaviour
         }
         if(currentTurn == playerTurn)
         {
-            bool isPlayerExhausted = player.DoUpdate(this);
+            bool isPlayerExhausted = player.DoUpdate();
             if(isPlayerExhausted)
             {
                 ScheduleNextTurn();

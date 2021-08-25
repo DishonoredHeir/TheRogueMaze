@@ -10,28 +10,34 @@ public abstract class MovingEntity : MonoBehaviour
     public float moveTime = 0.5f;
 
     protected GridTile currentTile;
+    protected Game game;
 
     private Vector2 TargetPos;
     private Vector2 currentVelocity;
     private int movesRemaining = 0;
     private bool isMoving = false;
 
+    private void Awake()
+    {
+        game = FindObjectOfType<Game>();
+    }
+
     private void Update()
     {
         transform.position = Vector2.SmoothDamp(transform.position, TargetPos, ref currentVelocity, movingSmoothTime, movingSpeed, Time.deltaTime);
     }
 
-    public bool DoUpdate(Game game)
+    public bool DoUpdate()
     {
         if(!isMoving && movesRemaining > 0)
         {
-            DoMovement(game);
+            DoMovement();
         }
 
         return IsExhausted();
     }
 
-    protected abstract void DoMovement(Game game);
+    protected abstract void DoMovement();
 
     public void OnTurnStart()
     {
@@ -50,7 +56,7 @@ public abstract class MovingEntity : MonoBehaviour
     }
 
     // Sets the entity position if the tile is valid, does nothing otherwise.
-    public virtual bool SetPos(GridTile tile, bool instant, Game game)
+    public virtual bool SetPos(GridTile tile, bool instant)
     {
         /*
         if(currentTile != null && GridTile.GetManhattanDistance(currentTile, tile) > 1 && !instant)
@@ -83,10 +89,10 @@ public abstract class MovingEntity : MonoBehaviour
     }
 
     // Move the entity by the given offset.
-    protected virtual bool MoveInDirection(Direction direction, Game game)
+    protected virtual bool MoveInDirection(Direction direction)
     {
         GridTile nextTile = game.GetGrid().GetTileInDirection(currentTile, direction);
-        return SetPos(nextTile, false, game);
+        return SetPos(nextTile, false);
     }
 
     protected void SetTargetPos(Vector2 vector)

@@ -9,34 +9,34 @@ public abstract class Mob : MovingEntity
     private GridTile previousTile = null;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         
     }
 
-    protected override void DoMovement(Game game)
+    protected override void DoMovement()
     {
-        GridTile NextTile = DoBehaviour(game);
+        GridTile NextTile = DoBehaviour();
         if(NextTile != null)
         {
             previousTile = currentTile;
-            SetPos(NextTile, false, game);
+            SetPos(NextTile, false);
         }
 
     }
 
-    protected virtual GridTile DoBehaviour(Game game)
+    protected virtual GridTile DoBehaviour()
     {
-        if(CanSeePlayer(game))
+        if(CanSeePlayer())
         {
-            return DoChase(game);
+            return DoChase();
         }
         
-        return DoWander(game);
+        return DoWander();
         
     }
 
-    protected GridTile DoWander(Game game)
+    protected GridTile DoWander()
     {
         List<GridTile> neighbors = game.GetGrid().GetBlankNeighbors(currentTile);
         if(neighbors.Count < 1)
@@ -57,7 +57,7 @@ public abstract class Mob : MovingEntity
         return tile;
     }
 
-    protected GridTile DoChase(Game game)
+    protected GridTile DoChase()
     {
         Point currentPoint = GridTile.GridTileToPoint(currentTile);
         Point PlayerPoint = GridTile.GridTileToPoint(game.GetPlayer().GetTile());
@@ -86,7 +86,7 @@ public abstract class Mob : MovingEntity
         return NextTile;
     }
 
-    protected bool CanSeePlayer(Game game)
+    protected bool CanSeePlayer()
     {
         return GridTile.GetManhattanDistance(game.GetPlayer().GetTile(), currentTile) <= sightDistance;
     }
