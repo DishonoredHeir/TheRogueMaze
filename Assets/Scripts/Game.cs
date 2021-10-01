@@ -19,6 +19,7 @@ public class Game : MonoBehaviour
     private int currentTurn = playerTurn;
     private bool hasMoved = false;
     private MobManager mobManager;
+    private TrapManager trapManager;
 
     // Converts a GridTile to its equivalent scene position.
     public Vector2 TileToScenePos(GridTile tile)
@@ -40,12 +41,18 @@ public class Game : MonoBehaviour
         tilemapGenerator.CreateTilemapFromGrid(grid);
         grid.RefreshPathFinder();
         mobManager = GetComponent<MobManager>();
+        trapManager = GetComponent<TrapManager>();
 
         // Spawn the player at a random dead end
-        SpawnPointGenerator spawnPointGenerator = new SpawnPointGenerator(grid.GetAllDeadEnds());
-        player.SetPos(spawnPointGenerator.GenerateSpawnPoint(), true);
+        SpawnPointGenerator DeadEnds = new SpawnPointGenerator(grid.GetAllDeadEnds());
+        player.SetPos(DeadEnds.GenerateSpawnPoint(), true, this);
+        //Spawns mobs in remaining dead ends
+        mobManager.SpawnMobs(DeadEnds);
+        //Spawn traps in unoccupied spaces
+        SpawnPointGenerator UnoccupiedTiles = new SpawnPointGenerator(grid.GetUnoccupiedTiles(player.GetTile()));
+        trapManager.SpawnTraps(UnoccupiedTiles);
+
         player.OnTurnStart();
-        mobManager.SpawnMobs(spawnPointGenerator);
     }
 
     private void Update()

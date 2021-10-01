@@ -81,6 +81,21 @@ public class GameGrid {
         return results;
     }
 
+    public List<GridTile> GetUnoccupiedTiles(GridTile playerTile)
+    {
+        List<GridTile> results = GetAllBlankTiles();
+        for(int i = results.Count - 1; i > -1; --i)
+        {
+            GridTile tile = results[i];
+            if(tile.GetMobs().Count > 0)
+            {
+                results.RemoveAt(i);
+            }
+        }
+        results.Remove(playerTile);
+        return results;
+    }
+
     // Returns a list of all blank tiles with 1 or less blank neighbors.
     public List<GridTile> GetAllDeadEnds(List<GridTile> blankTiles = null)
     {

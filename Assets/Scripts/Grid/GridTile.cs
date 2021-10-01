@@ -25,6 +25,7 @@ public class GridTile {
     private int x;
     private int y;
     private List<Mob> Mobs = new List<Mob>();
+    private Trap trap = null;
 
     public GridTile(int x, int y)
     {
@@ -35,6 +36,16 @@ public class GridTile {
     public void SetWall(bool flag)
     {
         isWall = flag;
+    }
+
+    public void SetTrap(Trap trap)
+    {
+        this.trap = trap;
+    }
+
+    public Trap GetTrap()
+    {
+        return trap;
     }
 
     public void AddMob(Mob mob)
@@ -48,6 +59,11 @@ public class GridTile {
         {
             Debug.Log("mob was not deleted successfully");
         }
+    }
+
+    public List<Mob> GetMobs()
+    {
+        return Mobs;
     }
 
     public bool IsWall()

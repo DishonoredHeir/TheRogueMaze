@@ -12,7 +12,7 @@ public class Player : MovingEntity
     public void HandlePlayerInput()
     {
         bool moved = false;
-         if(Input.GetKey(KeyCode.W))
+        if(Input.GetKey(KeyCode.W))
         {
             moved = MoveInDirection(Direction.Up);
         }
@@ -31,6 +31,14 @@ public class Player : MovingEntity
         else if(Input.GetKey(KeyCode.Space))
         {
             SetExhausted();
+        }
+
+        if(moved)
+        {
+            if(currentTile.GetTrap() != null)
+            {
+                currentTile.GetTrap().Trigger(game);
+            }
         }
     }
 }

@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 247601427}
   - component: {fileID: 247601426}
   - component: {fileID: 247601428}
+  - component: {fileID: 247601429}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -246,6 +247,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slimePrefab: {fileID: 3278771384045989603, guid: e4b7aeb2767d01246a4b23449f3638f0, type: 3}
   GlobPrefab: {fileID: 2172128357411142573, guid: fb5e4aeac9b50574f833a2f41578e514, type: 3}
+--- !u!114 &247601429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247601425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d33e665880c3a4940ae4ea2d5ed7a880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumTraps: 100
+  PitfallPrefab: {fileID: 4153815298014606255, guid: eaca2d783be0b234788e2a843606da7a, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1772628542545950195, guid: f546552bb21d6164bba21cbee37223f5, type: 3}
       propertyPath: movesPerTurn
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f546552bb21d6164bba21cbee37223f5, type: 3}
